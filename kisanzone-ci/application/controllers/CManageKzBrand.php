@@ -5,7 +5,9 @@ class CManageKzBrand Extends CI_Controller{
 
     // Load list of brand
     public function index(){
-        $this->load->model('CBrandModel');   
+        $this->load->model('CBrandModel');
+        
+        $data = array();
         // fetch all record of brand table
         $rows=$this->CBrandModel->fetchAllBrand(); 
         $data['rows']=$rows;
@@ -13,43 +15,47 @@ class CManageKzBrand Extends CI_Controller{
         $this->load->view('admin/brand/listBrand',$data);
     }
 
-    // save or insert record to brand table
+    // Save or insert record to brand table
     public function saveBrand(){
         $this->load->model('CBrandModel');
 
         $formArray=array();
+        
         $formArray['brand_name']=$this->input->post('brand');
-        $id = $this->CBrandModel->create($formArray);
+        $this->CBrandModel->create($formArray);
 
-        // response to display record inserted
+        // Response to display record inserted
         $response['status']=1;
         $response['brand_name']=$formArray['brand_name'];
         echo json_encode($response);
      }
 
-     // load addBrand view to add record
-     public function addBrand(){
+    // Load addBrand view to add record
+    public function addBrand(){
        $this->load->view('admin/brand/addBrand');
      }
 
-     // this will return edit form
+     // This will get particular brand record and return edit form
      function getBrand($intId){
         $this->load->model('CBrandModel');
         
         $row = $this->CBrandModel->fetchRow($intId);
-        $data['row']=$row; 
+
+        $data['row']=$row;
+        
+        // Edit form view
         $html = $this->load->view('admin/brand/editBrand.php',$data,true);
 
-        // loaded html response
+        // Loaded html response
         $response['html']=$html;
         echo json_encode($response);
      }
 
-    //  update particular record of brand table
+    //  Update particular record of brand table
      function  updateBrand(){
         $this->load->model('CBrandModel');
 
-        // to find record exists or not
+        // To find record exists or not
         $intBrandId= $this->input->post('brand_id');
         $row = $this->CBrandModel->fetchRow($intBrandId);
         if(empty($row)){
@@ -58,11 +64,11 @@ class CManageKzBrand Extends CI_Controller{
             echo json_encode($response);
             exit;
         }
-
         
         date_default_timezone_set("Asia/Kolkata");
 
         $formArray=array();
+
         $formArray['brand_name']=$this->input->post('brand_name');
         $formArray['modified_date']= date("Y-m-d h:i:sa");
         
@@ -70,13 +76,14 @@ class CManageKzBrand Extends CI_Controller{
 
         $row = $this->CBrandModel->fetchRow($intBrandIdResponse);
 
+        // Response to show record updated
         $response['row']=$row;
         $response['status']=1;
         $response['msg']= "Record updated succeefully!";
         echo json_encode($response);
      }
 
-     // delete particular record 
+     // Delete particular record 
      function deleteBrand($intBrandId){
         $this->load->model('CBrandModel');
 
@@ -92,7 +99,7 @@ class CManageKzBrand Extends CI_Controller{
         // if find then delete it
         $this->CBrandModel->delete($intBrandId);
 
-        // response to display success
+        // Response to display record deleted
         $response['brand_id']=$intBrandId;
         $response['status']= 1;
         $response['msg']= "Record deleted succeefully!";

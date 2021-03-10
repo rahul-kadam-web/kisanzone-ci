@@ -36,14 +36,37 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ">
+              <?php $user=$this->session->userdata('user');
+              if(!empty($user)) {
+              ?>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo site_url('CHome/login'); ?>"> 
+                <div class="dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                    <span><?php echo $user; ?></span>
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?php echo base_url().'CCustomers/customerProfile'; ?>">
+                      <i class="fa fa-user" aria-hidden="true"></i>
+                      <span>My Profile</span> </a>
+                    <a class="dropdown-item" href="<?php echo base_url().'CCustomers/getOrders'; ?>">
+                    <i class="fa fa-indent"></i>
+                      <span> Orders</span></a>
+                    <a class="dropdown-item" href="<?php echo base_url().'CCustomers/logout'; ?>">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <span> Logout</span></a>
+                 </div>
+                </div>
+                </li>
+                <?php }else{ ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo site_url('CCustomers/index'); ?>"> 
                     <i class="fa fa-user" aria-hidden="true"></i>
                 <span>
                   Login
                 </span>
               </a>
                 </li>
+              <?php } ?>
                 <!-- cart basket -->
                  <li class="nav-item">
                   <a class="nav-link" href="<?php echo base_url('CCart'); ?>" title="View Cart">

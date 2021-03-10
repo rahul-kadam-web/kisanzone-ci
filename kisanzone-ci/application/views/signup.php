@@ -19,7 +19,7 @@
   <section class="signup_section layout_padding">
     <div class="container">
       <div class="row">
-        <div class="col-md-8 offset-md-2 col-12 col-lg-8 offset-lg-2">
+        <div class="col-12">
           <div class="box">
             <div class="heading_container heading_center bg-light pt-3 pb-3">
               <h3>
@@ -27,7 +27,7 @@
              </h3>
           </div>
           <hr>
-            <form name="signupForm" method="post" onsubmit="return signupFormValidation()">
+            <form name="signupForm" id="signupForm"  method="post" onsubmit="return signupFormValidation()">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -53,8 +53,9 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Mobile</label>
-                    <input type="number" value="" name="mobile" class="form-control">
+                    <input type="number" id="mobile" value="" name="mobile" class="form-control">
                     <span id="mobileError" class="text-danger"></span>
+                    <span id="mobileExistError" class="text-danger"></span>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -76,16 +77,20 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>City</label>
-                    <input type="text" name="city" class="form-control">
-                    <span id="cityError" class="text-danger"></span>
+                    <label>State</label>
+                    <select id="listBox" name="state" onchange='selct_district(this.value)' class="form-control"></select>
+                    <!-- <input type="text" name="state" class="form-control"> -->
+                    <span id="stateError" class="text-danger"></span>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>State</label>
-                    <input type="text" name="state" class="form-control">
-                    <span id="stateError" class="text-danger"></span>
+                    <label>City</label>
+                    <select id='secondlist' name="city" class="form-control">
+                      <option value="">Select City</option>
+                    </select>
+                    <!-- <input type="text" name="city" class="form-control"> -->
+                    <span id="cityError" class="text-danger"></span>
                   </div>
                 </div>
                 <div class="col-md-12">
@@ -95,12 +100,14 @@
                     <span id="addressError" class="text-danger"></span>
                   </div>
                 </div>
+                <!-- to store otp -->
+                <input type="hidden" name="verifiedOtp" id="verifiedOtp">
               </div>
               <div class="form-group text-center">
                 <button type="submit" class="signup-btn">Signup</button>
                 <button type="reset" class="reset-btn">Reset</button>
                 <br>
-                <a href="<?php echo site_url('CHome/login'); ?>" class="text-info">Already register? login here..</a>
+                <a href="<?php echo site_url('CCustomers/index'); ?>" class="text-info">Already register?<br> login here..</a>
               </div>
             </form>
           </div>
@@ -111,6 +118,31 @@
 
   <!-- end signup section -->
 
+  <!-- The Modal for otp confirmation -->
+<div class="modal" id="otpConfirmationModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <input type="number" id="otpNumber" class="form-control">
+        <span id="otpNumberError" class="text-danger"></span>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="btnVerifyOtp">Verify otp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- info section, footer section and Jquery links -->
 <?php
@@ -118,6 +150,11 @@ $this->load->view('footerInfoSection')
 ?>
 
 <script type="text/javascript">
+// to check at the validation time 
+var mobileExist=0;
+//sent  otp
+var otp;
+
 //Change the type of input to password or text 
 function showPassword() { 
   var pass = document.getElementById("password"); 
@@ -226,26 +263,122 @@ function signupFormValidation() {
     count++;
   }
 
-  if(!city.match(nameRegularE)){
-    document.getElementById("cityError").innerHTML="Plz enter more than one character";
+  if(city == ""){
+    document.getElementById("cityError").innerHTML="Plz select city";
     count++;
   }
 
-  if(!state.match(nameRegularE)){
-    document.getElementById("stateError").innerHTML="Plz enter more than one character";
+  if(state == ""){
+    document.getElementById("stateError").innerHTML="Plz select state";
     count++;
   }
 
-  if(!address.match(nameRegularE)){
+  if(address == ""){
     document.getElementById("addressError").innerHTML="Plz enter valid address";
     count++;
   }
 
-  if(count > 0){
+  // to check validation error and to check emailExist count 
+  if(count > 0 || mobileExist > 0){
     return false;
   }
+ else{
+  //  otp = generateOtp();
+  //  $.ajax({
+  //    url: "<?php echo base_url();?>CCustomers/sendOtp",
+  //    type: 'POST',
+  //    data: {"mobile":mobile, "otp":otp},
+  //    dataType: 'json',
+  //    success: function(response){
+  //     if(response['return'] == true){
+  //       $('#otpConfirmationModal').modal('show');
+  //       $('.modal-title').html('Otp is sent to your mobile number');
+  //     }else{
+  //       alert('Something went wrong. Please try again later!');
+  //     }
+  //    }
+  //  });
+ // return false;
 
+//Due to fast2sms server down without otp verify storing data 
+  $.ajax({
+      url : "<?php echo base_url();?>CCustomers/saveCustomer",
+      type : 'POST',
+      data :  $("#signupForm").serializeArray(),
+      dataType : 'json',
+      success : function(response){
+          if(response['status'] == 1){
+            // redirect to welcome page
+            location.href = "<?php echo base_url().'CCustomers/index'; ?>";
+          }else{
+            alert("Something went wrong! Please try later!");
+          }
+        }
+    });
+ }
+ 
 }
+
+
+
+// to check mobile already exists or not
+$('#mobile').change(function(){
+  var mobile = document.forms["signupForm"]["mobile"].value;
+    $.ajax({
+      url : "<?php echo base_url();?>CCustomers/mobileAlreadyExistOrNot",
+      type : 'POST',
+      data : {"mobile" : mobile},
+      dataType : 'json',
+      success : function(response){
+          if(response['status'] == 1){
+            document.getElementById("mobileExistError").innerHTML="Mobile already exist. Plz enter another mobile number";
+            document.getElementById("mobileError").innerHTML="";
+            mobileExist=1;
+            }else{
+            mobileExist=0;
+            document.getElementById("mobileExistError").innerHTML="";
+          }
+        }
+    });
+});
+
+// Function to generate OTP 
+function generateOtp() { 
+  // Declare a digits variable  
+  // which stores all digits 
+  var digits = '0123456789'; 
+  let OTP = ''; 
+  for (let i = 0; i < 6; i++ ) { 
+  OTP += digits[Math.floor(Math.random() * 10)]; 
+  } 
+  return OTP; 
+} 
+
+// onclick button verify the otp
+$("#btnVerifyOtp").click(function(){
+  var userOtp = $("#otpNumber").val();
+  
+  if(userOtp == otp){
+    $("#otpNumberError").html("");
+    $("#verifiedOtp").val(otp);
+    $.ajax({
+      url : "<?php echo base_url();?>CCustomers/saveCustomer",
+      type : 'POST',
+      data :  $("#signupForm").serializeArray(),
+      dataType : 'json',
+      success : function(response){
+          if(response['status'] == 1){
+            // redirect to welcome page
+            location.href = "<?php echo base_url().'CCustomers/index'; ?>";
+          }else{
+            alert("Something went wrong! Please try later!");
+          }
+        }
+    });
+  }else{
+    $("#otpNumberError").html("Invalid otp");
+  }
+});
 </script>
 </body>
 

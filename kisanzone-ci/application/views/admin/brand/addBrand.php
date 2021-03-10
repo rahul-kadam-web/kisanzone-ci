@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <!-- head -->
 <?php 
     $this->load->view('admin/adminHead'); 

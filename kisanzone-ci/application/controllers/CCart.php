@@ -8,21 +8,19 @@ class CCart extends CI_Controller{
         
         // Load cart library
         $this->load->library('cart');
-        
-        // Load product model
-        $this->load->model('product');
     }
     
+    // Load shopping cart view to user
     function index(){
         $data = array();
         
         // Retrieve cart data from the session using contents() function
         $data['cartItems'] = $this->cart->contents();
         
-        // Load the cart view
         $this->load->view('cart/index', $data);
     }
     
+    // Update quantity of item in shopping cart 
     function updateItemQty(){
         $update = 0;
         
@@ -43,8 +41,8 @@ class CCart extends CI_Controller{
         echo $update?'ok':'err';
     }
     
+    // Remove item from cart
     function removeItem($rowid){
-        // Remove item from cart
         $remove = $this->cart->remove($rowid);
         
         // Redirect to the cart page

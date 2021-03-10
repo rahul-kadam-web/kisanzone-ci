@@ -14,7 +14,7 @@ class CBrandModel extends CI_Model{
                     ->order_by('brand_id','asc')
                     ->get('brand')
                     ->result_array();
-        //select * from brand order by id asc
+        //select * from brand order by brand_id asc
         return $result;
     }
 
@@ -22,7 +22,7 @@ class CBrandModel extends CI_Model{
     function fetchRow($intId){
         $this->db->where('brand_id',$intId);
         $row = $this->db->get('brand')->row_array();
-        //select * from brand where brand_id='$id'
+        //select * from brand where brand_id='$intId'
         return $row;
     }
 
@@ -30,7 +30,7 @@ class CBrandModel extends CI_Model{
     function update($intId,$formArray){
         $this->db->where('brand_id',$intId);
         $row = $this->db->update('brand',$formArray);
-        //update brand set ....
+        //update brand set .... where brand_id=
         return $intId; //return intId
     }
 

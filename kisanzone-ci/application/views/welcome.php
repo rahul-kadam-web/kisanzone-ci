@@ -13,72 +13,39 @@ $this->load->view('head');
     <!-- end header section -->
     <!-- slider section -->
     <section class="slider_section ">
-      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="container ">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="detail-box">
-                    <h1>
-                      Welcome to our kisanzone shop
-                    </h1>
-                    <p>
-                    We are selling agricutural products online with information to the our indean farmers.
-                    </p>
-                    <!-- <a href="">
-                      Read More
-                    </a> -->
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="img-box">
-                    <img src="<?php echo base_url().'assets/images/slider-1.png'; ?>" class="img-fluid" alt="">
-                  </div>
-                </div>
+         <div id="demo" class="carousel slide" data-ride="carousel">
+            <ul class="carousel-indicators">
+              <li data-target="#demo" data-slide-to="0" class="active"></li>
+              <li data-target="#demo" data-slide-to="1"></li>
+            </ul>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img class="d-block img-fluid" src="<?php echo base_url().'assets/images/Slider-1.jpg'; ?>" alt="Slider-1">
+                <div class="carousel-caption font-weight-bold">
+                  <h1 class="text-warning"> Welcome to our kisanzone shop</h1>
+                  <h4>We are selling agricutural products online with information to the our indean farmers.</h4>
+                </div>   
               </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="container ">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="detail-box">
-                    <h1>
-                      Looking for great and trusted deal
-                    </h1>
-                    <p>
-                       So we are here to provide you assured products.
-                    </p>
-                    <p>You can shop here without any fear</p>
-                    <!-- <a href="">
-                      Read More
-                    </a> -->
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="img-box">
-                    <img src="<?php echo base_url().'assets/images/slider-2.png'; ?>" class="img-fluid" alt="">
-                  </div>
-                </div>
+              <div class="carousel-item">
+                <img class="d-block img-fluid" src="<?php echo base_url().'assets/images/Slider-2.jpg'; ?>" alt="Slider-2">
+                <div class="carousel-caption font-weight-bold">
+                  <h1 class="text-warning">Looking for great and trusted deal</h1>
+                  <h4>So we are here to provide you assured products. You can shop here without any fear</h4>
+                </div>   
               </div>
-            </div>
+           </div>
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            </a>
           </div>
-        </div>
-        <div class="carousel_btn_box">
-          <a class="carousel-control-prev" href="#customCarousel1" role="button" data-slide="prev">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#customCarousel1" role="button" data-slide="next">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-      </div>
     </section>
     <!-- end slider section -->
+  
   </div>
+  
 
 
   <!-- product section -->
@@ -90,16 +57,29 @@ $this->load->view('head');
           Our Products
         </h2>
       </div>
+      <!-- Showing product categorywise -->
       <div class="row">
-        <!-- Products -->
-        <?php if(!empty($products)){ foreach($products as $row){ ?>
+      <!-- Products -->
+      <?php 
+        $strCategory = ''; 
+        if(!empty($products)){
+           foreach($products as $row){
+              if($strCategory != $row['category_name']){
+              //if((strcmp($strCategory , $row['category_name']))){
+              $strCategory = $row['category_name'];
+            
+      ?>
+        <div class="col-12 text-left mt-3">
+          <h3> <?php echo $strCategory; ?></h3>
+        </div>
+        <?php } ?>
         <div class="col-sm-6 col-lg-4">
           <div class="box">
             <div class="img-box">
               <img src="<?php echo base_url().'productImages/'.$row["image"]; ?>" alt="product image" class="img img-responsive">
-              <a href="<?php echo base_url().'index.php/CHome/addToCart/'.$row['pro_id']; ?>" class="add_cart_btn">
+              <a href="<?php echo base_url().'CHome/viewProductDetails/'.$row['pro_id']; ?>" class="view_details_btn">
                 <span>
-                  Add To Cart
+                  View Details
                 </span>
               </a>
             </div>
@@ -127,6 +107,7 @@ $this->load->view('head');
           echo '<p>Currently Products are not available!</p>'; 
           } ?>
       </div>
+
       <div class="btn_box">
         <a href="#" class="view_more-link">
           View More
@@ -155,7 +136,7 @@ $this->load->view('head');
                 Fast Delivery
               </h5>
               <p>
-                We are providing fast delivery of products to the your address
+              We are providing fast delivery of products to your address
               </p>
             </div>
           </div>
@@ -170,7 +151,7 @@ $this->load->view('head');
                 Free Shiping
               </h5>
               <p>
-               We are providing free shiping facility
+              We are providing a free shipping facility on products
               </p>
             </div>
           </div>
@@ -185,7 +166,7 @@ $this->load->view('head');
                 Best Quality
               </h5>
               <p>
-                We check all the product before sale
+              We check all the products before the sale.
               </p>
             </div>
           </div>
@@ -199,6 +180,13 @@ $this->load->view('head');
 <?php
 $this->load->view('footerInfoSection')
 ?>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.carousel').carousel({
+  interval: 2000
+});
+});
+</script>
 </body>
 
 </html>

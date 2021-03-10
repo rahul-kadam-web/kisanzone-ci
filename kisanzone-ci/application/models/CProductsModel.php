@@ -10,10 +10,6 @@ class CProductsModel extends CI_Model{
 
     //This method will return all records from brand, category and product table
     function fetchAllProducts(){
-        // $result = $this->db
-        //             ->order_by('pro_id','asc')
-        //             ->get('products')
-        //             ->result_array();
         $result = $this->db->select('p.pro_id, p.name, p.image, p.price, p.quantity, p.description, p.cat_id, c.category_name, p.brand_id, b.brand_name, p.added_date, p.modified_date, p.status')
                     ->from('products p')
                     ->join('category c', 'c.cat_id=p.cat_id')
@@ -50,6 +46,50 @@ class CProductsModel extends CI_Model{
         //delete from products where pro_id=
         return $intProductId;
     }
+
+    /*
+     * Fetch products data from the product table for users
+     */
+    public function getProductsRows(){
+
+        $rows = $this->db->select('c.category_name, p.pro_id, p.name, p.image, p.price, p.cat_id, p.status')
+                    ->from('products p')
+                    ->join('category c', 'c.cat_id=p.cat_id')
+                    ->join('brand b', 'b.brand_id=p.brand_id')
+                    ->where('p.status','1')
+                    ->group_by('c.category_name, p.name, p.pro_id, p.image, p.price, p.cat_id, p.status')
+                    ->get()->result_array();
+        
+        // Return fetched data
+        return $rows;
+    }
+
+     /*
+     * Insert order data in the database
+     * @param data array
+     */
+    public function insertOrder($data){
+                
+        // Insert order data
+        $insert = $this->db->insert('orders', $data);
+
+        // Return the status
+        return $insert?$this->db->insert_id():false;
+    }
+
+    /*
+     * Insert order items data in the database
+     * @param data array
+     */
+    public function insertOrderItems($data = array()) {
+        
+        // Insert order items
+        $insert = $this->db->insert_batch('order_items', $data);
+
+        // Return the status
+        return $insert?true:false;
+    }
+
 }
 
 ?>

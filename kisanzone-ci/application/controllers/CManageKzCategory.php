@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CManageKzCategory Extends CI_Controller{
-    // load list of category
+    // Load list of category
     public function index(){
         $this->load->model('CCategoryModel');
         // fetch all records of category in $rows varibale
@@ -12,45 +12,46 @@ class CManageKzCategory Extends CI_Controller{
         $this->load->view('admin/category/listCategory.php',$data);
     }
 
-    // save or insert particular record in category table
+    // Save or insert particular record in category table
     public function saveCategory(){
         $this->load->model('CCategoryModel');
 
         $formArray=array();
+        
         $formArray['category_name']=$this->input->post('category');
+        // $formArray passed to create 
         $this->CCategoryModel->create($formArray);
 
-        //response to display success operation
+        // Response to display record inserted
         $response['status']=1;
         $response['category_name']=$formArray['category_name'];
         echo json_encode($response);
      }
 
-     // load addCategory view
+     // Load addCategory view
      public function addCategory(){
-       //Load the addBrand view
        $this->load->view('admin/category/addCategory.php');
      }
 
-     // this will return edit form
+     // This will return particular record of category and edit form
      function getCategory($intId){
       $this->load->model('CCategoryModel');
 
-      // fetch particular record
+      // Fetch particular record
       $row = $this->CCategoryModel->fetchRow($intId);
       $data['row']=$row; 
       $html = $this->load->view('admin/category/editCategory.php',$data,true);
 
-      //response in html to load edit view
+      //Response in html to load edit view
       $response['html']=$html;
       echo json_encode($response);
    }
 
-   // this will update particular record
+   // This will update particular record
    function  updateCategory(){
     $this->load->model('CCategoryModel');
 
-    // to find record exists or not
+    // To find record exists or not
     $intCatId= $this->input->post('cat_id');
     $row = $this->CCategoryModel->fetchRow($intCatId);
     if(empty($row)){
@@ -67,17 +68,17 @@ class CManageKzCategory Extends CI_Controller{
     $formArray['modified_date']= date("Y-m-d h:i:sa");
     $intCatIdResponse = $this->CCategoryModel->update($intCatId,$formArray);
 
-    // fetch updated record
+    // To fetch updated record
     $row=$this->CCategoryModel->fetchRow($intCatIdResponse);
 
-    // response  to display success and change in view
+    // response  to display record updated
     $response['row']=$row;
     $response['status']=1;
     $response['msg']= "Record updated succeefully!";
     echo json_encode($response);
  }
 
-//  delete particular record from from category table 
+// Delete particular record from from category table 
  function deleteCategory($intCatId){
   $this->load->model('CCategoryModel');
 
@@ -90,10 +91,10 @@ class CManageKzCategory Extends CI_Controller{
       exit;
   }
 
-  // delete method call
+  // Delete method call
   $this->CCategoryModel->delete($intCatId);
 
-  // response to display success and make changes in view
+  // Response to display record deleted
   $response['cat_id']=$intCatId;
   $response['status']= 1;
   $response['msg']= "Record deleted succeefully!";

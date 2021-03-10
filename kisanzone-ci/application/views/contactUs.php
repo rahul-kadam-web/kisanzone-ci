@@ -18,7 +18,7 @@
       <div class="row">
         <div class="col-md-10 offset-md-10 col-12 col-lg-10 offset-lg-1">
           <div class="box">
-            <div class="heading_container heading_center bg-light pt-3 pb-3">
+            <div class="heading_container heading_center bg-light pt-2 pb-2">
               <h3>
                Contact Us
              </h3>

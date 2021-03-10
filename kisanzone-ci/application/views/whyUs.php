@@ -12,9 +12,8 @@
     <!-- end header section -->
 
 
-  <!-- why us section -->
-
-  <section class="why_us_section layout_padding">
+ <!-- why us section -->
+ <section class="why_us_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -32,7 +31,7 @@
                 Fast Delivery
               </h5>
               <p>
-                We are providing fast delivery of products to the your address
+              We are providing fast delivery of products to your address
               </p>
             </div>
           </div>
@@ -47,7 +46,7 @@
                 Free Shiping
               </h5>
               <p>
-               We are providing free shiping facility
+              We are providing a free shipping facility on products
               </p>
             </div>
           </div>
@@ -62,7 +61,7 @@
                 Best Quality
               </h5>
               <p>
-                We check all the product before sale
+              We check all the products before the sale.
               </p>
             </div>
           </div>
@@ -70,7 +69,6 @@
       </div>
     </div>
   </section>
-
   <!-- end why us section -->
   
 <!-- info section, footer section and Jquery links -->

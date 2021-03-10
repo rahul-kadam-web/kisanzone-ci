@@ -53,11 +53,18 @@
                             <td></td>
                         </tr>
                     <?php } ?>
-                </tbody>
-            </table>
-            <div class="text-right">
-            <a href="<?php echo  base_url().'CHome'; ?>" class="btn btn-primary">Continue shopping</a>
-            </div>
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <a href="<?php echo  base_url().'CHome'; ?>" class="btn btn-link">Continue shopping</a>
+                    <?php 
+                    if(!empty($this->session->userdata('cus_id')) && !empty($this->cart->total_items())){ 
+                    ?> 
+                    <a href="<?php echo  base_url().'CCheckout'; ?>" class="btn btn-primary">Place Order</a>
+                    <?php
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </div>
@@ -70,13 +77,13 @@ $this->load->view('footerInfoSection')
 <script>
 // Update item quantity
 function updateCartItem(obj, rowid){
-$.get("<?php echo base_url('CCart/updateItemQty/'); ?>", {rowid:rowid, qty:obj.value}, function(resp){
-    if(resp == 'ok'){
-        location.reload();
-    }else{
-        alert('Cart update failed, please try again.');
-    }
-});
+    $.get("<?php echo base_url('CCart/updateItemQty/'); ?>", {rowid:rowid, qty:obj.value}, function(resp){
+        if(resp == 'ok'){
+            location.reload();
+        }else{
+            alert('Cart update failed, please try again.');
+        }
+    });
 // $.ajax({
 // 				url:'<?php echo base_url('CCart/updateItemQty/'); ?>',
 // 				type: "GET",

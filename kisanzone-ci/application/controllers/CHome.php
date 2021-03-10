@@ -9,26 +9,38 @@ class CHome Extends CI_Controller{
         // Load cart library
         $this->load->library('cart');
         
-        // Load product model
-        $this->load->model('product');
     }
     
-    //load welcone view
+    // Load welcone view
     function index(){
+        $this->load->model('CProductsModel');
+
         $data = array();
         
         // Fetch products from the database
-        $data['products'] = $this->product->getRows();
+        $data['products'] = $this->CProductsModel->getProductsRows();
         
         // Load the product list view
         $this->load->view('welcome', $data);
     }
 
+    //product details on user click
+    function viewProductDetails($intProductId){
+        $this->load->model('CProductsModel');
+        
+        $data = array();
+        
+        // Fetch products from the database
+        $data['products'] = $this->CProductsModel->fetchRow($intProductId);
+        $this->load->view('viewProductDetails',$data);
+    }
+
     // it will add item to cart
     function addToCart($proID){
+        $this->load->model('CProductsModel');
         
         // Fetch specific product by ID
-        $product = $this->product->getRows($proID);
+        $product = $this->CProductsModel->fetchRow($proID);
         
         // Add product to the cart
         $data = array(
@@ -44,28 +56,18 @@ class CHome Extends CI_Controller{
         redirect(base_url().'CCart');
     }
 
+    // Load the about view
     public function about(){
-        //Load the about view
         $this->load->view('about');
     }
 
-    public function login(){
-        //Load the login view
-        $this->load->view('login');
-    }
-
-    public function signup(){
-        //Load the signup view
-        $this->load->view('signup');
-    }
-
+    // Load the whyUs view
     public function whyUs(){
-        //load the whyUs view
         $this->load->view('whyUs');
     }
 
+    // Load the contact us view
     public function contactUs(){
-        //Load the contact us view
         $this->load->view('contactUs');
     }
 }

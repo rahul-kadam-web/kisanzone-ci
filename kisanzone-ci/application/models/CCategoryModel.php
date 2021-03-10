@@ -2,7 +2,8 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class CCategoryModel extends CI_Model{
-    // to insert record in category table
+    
+    // To insert record in category table
     function create($formArray)
     {
         $this->db->insert('category', $formArray);
@@ -14,7 +15,7 @@ class CCategoryModel extends CI_Model{
                     ->order_by('cat_id','asc')
                     ->get('category')
                     ->result_array();
-        //select * from category order by id asc
+        //select * from category order by cat_id asc
         return $result;
     }
 
@@ -22,7 +23,7 @@ class CCategoryModel extends CI_Model{
     function fetchRow($intId){
         $this->db->where('cat_id',$intId);
         $row = $this->db->get('category')->row_array();
-        //select * from brand where brand_id='$id'
+        //select * from category where cat_id='$intId'
         return $row;
     }
 
@@ -30,7 +31,7 @@ class CCategoryModel extends CI_Model{
     function update($intId,$formArray){
         $this->db->where('cat_id',$intId);
         $row = $this->db->update('category',$formArray);
-        //update brand set ....
+        //update category set ....
         return $intId;
     }
 
@@ -38,7 +39,7 @@ class CCategoryModel extends CI_Model{
     function delete($intId){
         $this->db->where('cat_id',$intId);
         $row = $this->db->delete('category');
-        //delete from brand where brand_id=
+        //delete from category where cat_id=
         return $intId;
     }
 }
