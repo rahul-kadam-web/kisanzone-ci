@@ -41,6 +41,7 @@
         if(!empty($orderRows)){
            foreach($orderRows as $orderRow){
             ?> <div class="container card mb-3">
+                    <h6 class="text-center text-light bg-dark p-2"><?php echo date("d-m-Y h:i:s a", strtotime($orderRow['created_date'])); ?></h6>
                     <div class="row m-3">
                         <div class="col-4 col-md-2">
                             <img width="100" src="<?php echo base_url().'productImages/'.$orderRow['image'] ?>" alt="product">
@@ -48,8 +49,7 @@
                         <div class="col-8 col-md-4">
                             <p>
                                 <b><?php echo $orderRow['name']; ?></b><br>
-                                <?php echo $orderRow['category_name']; ?><br>
-                                <?php echo $orderRow['brand_name']; ?><br><br>
+                                <?php echo $orderRow['category_name']; ?> - <?php echo $orderRow['brand_name']; ?><br>
                                 <strong>Quantity : </strong><?php echo $orderRow['quantity']; ?>
                             </p>
                         </div>
@@ -59,15 +59,14 @@
                         <div class="col-8 col-md-4">
                             <p>
                             <b>Delivery address</b><br>
-                            <?php echo $orderRow['address']; ?>, <?php echo $orderRow['city']; ?>, <?php echo $orderRow['state']; ?>, <?php echo $orderRow['pin']; ?><br>
-                            <?php echo date("d-m-Y h:i:sa", strtotime($orderRow['created_date'])); ?>
+                            <?php echo $orderRow['address']; ?>, <?php echo $orderRow['city']; ?>, <?php echo $orderRow['state']; ?>, <?php echo $orderRow['pin']; ?>
                             </p>
                         </div>
                      </div>
                 </div>            
         <?php }  
         }else{ 
-          echo '<div class="text-center"><p>You did not ordered anything!</p></div>'; 
+          echo '<div class="container card text-center pt-4 pb-4"><h5>You did not order anything!</h5></div>'; 
           } ?>
     </section>
   <!-- end orders section -->

@@ -49,14 +49,21 @@
                 <input type="password" id="password" name="password" class="form-control">
                 <span id="passwordError" class="text-danger"></span>
                 <br>
-                <input type="checkbox" onclick="showPassword()"> 
-                Show Password
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <input type="checkbox" onclick="showPassword()"> 
+                    <span>Show Password</span> 
+                  </div>
+                  <div class="">
+                    <a href="<?php echo  base_url().'CCustomers/forgotPassword'; ?>" class="">forgot password?</a>
+                  </div> 
+                </div>
               </div>
               <div class="form-group text-center">
                 <button type="submit" class="login-btn">Login</button>
                 <button type="reset" class="reset-btn">Reset</button>
                 <br>
-                <a href="<?php echo site_url('CCustomers/signup'); ?>" class="text-info">Are you new to kisanzone? <br> signup here..</a>
+                <a href="<?php echo site_url('CCustomers/signup'); ?>" class="text-outline-info">Are you new to kisanzone? <br> signup here..</a>
               </div>
             </form>
           </div>
@@ -65,6 +72,9 @@
     </div>
 </section>
   <!-- end login section -->
+
+  <!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
 
 
 <!-- info section, footer section and Jquery links -->
@@ -120,6 +130,9 @@ function loginFormValidation() {
       type : 'POST',
       data :  $("#loginForm").serializeArray(),
       dataType : 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success : function(response){
           if(response['status'] == 1){
             // redirect to welcome page
@@ -129,6 +142,9 @@ function loginFormValidation() {
             $("#loginStatus").addClass('alert alert-danger');
             $("#loginStatus").html(response['msg']);
           }
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
     });
   }

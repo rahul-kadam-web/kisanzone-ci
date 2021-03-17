@@ -70,6 +70,11 @@ class CCustomersModel extends CI_Model{
         return $result;
     }
 
+    // Count the customer records
+    function fetchCount(){
+        return $this->db->get('customers')->num_rows();
+    }
+
 }
 
 ?>

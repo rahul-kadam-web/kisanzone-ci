@@ -41,6 +41,11 @@ class CBrandModel extends CI_Model{
         //delete from brand where brand_id=
         return $intId; //return intId
     }
+
+    // Count the brand records
+    function fetchCount(){
+        return $this->db->get('brand')->num_rows();
+    }
 }
 
 ?>

@@ -124,13 +124,15 @@
                                     <button type="reset" class="btn btn-danger">Cancel</button>
                              </div>
                         </div>
-                      
                     </div>
                 </div>
           </form>
         </div>
     </div>
 
+<!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+ 
 <script type="text/javascript">
 //file validation
 function fileValidation(){
@@ -289,6 +291,9 @@ $('#productForm').submit(function(e){
       cache:false,
       async:false,
       dataType: 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success: function(response){
           if(response['status']==1){
             productForm.reset();
@@ -300,7 +305,10 @@ $('#productForm').submit(function(e){
             $('#alert-msg').html("Record not added!!");
             $("#alert").addClass("alert-danger");
           }
-        }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      }
     });
   }
 });

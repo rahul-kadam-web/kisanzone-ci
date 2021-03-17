@@ -52,11 +52,13 @@ $this->load->view('head');
 
   <section class="product_section layout_padding">
     <div class="container">
+    <hr>
       <div class="heading_container heading_center">
         <h2>
           Our Products
         </h2>
       </div>
+      <hr>
       <!-- Showing product categorywise -->
       <div class="row">
       <!-- Products -->
@@ -108,12 +110,62 @@ $this->load->view('head');
           } ?>
       </div>
 
-      <div class="btn_box">
+      <!-- <div class="btn_box">
         <a href="#" class="view_more-link">
           View More
         </a>
+      </div> -->
+    </div>
+
+  <?php 
+    if(!empty($recently_viewed_products)){
+  ?>
+    <div class="container pt-5 mt-5">
+    <hr>
+      <div class="heading_container heading_center">
+        <h2>
+          Recently Viewed Products
+        </h2>
+      </div>
+      <hr>
+      <div class="row">
+      <!-- Products -->
+      <?php
+        foreach($recently_viewed_products as $row){ 
+      ?>
+        <div class="col-sm-6 col-lg-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="<?php echo base_url().'productImages/'.$row["image"]; ?>" alt="product image" class="img img-responsive">
+              <a href="<?php echo base_url().'CHome/viewProductDetails/'.$row['pro_id']; ?>" class="view_details_btn">
+                <span>
+                  View Details
+                </span>
+              </a>
+            </div>
+            <div class="detail-box">
+              <h5>
+              <?php echo $row["name"]; ?>
+              </h5>
+              <div class="product_info">
+                <h5>
+                  <span>Rs: </span><?php echo $row["price"]; ?>
+                </h5>
+                <div class="star_container">
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <?php } ?>
       </div>
     </div>
+  <?php } ?>
   </section>
   <!-- end product section -->
 

@@ -153,6 +153,11 @@
     </div>
   </div>
 </div>
+
+<!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+ 
+
    <!-- jquery and script -->
  <?php
     $this->load->view('admin/adminFooter');
@@ -216,9 +221,15 @@ $(document).ready(function() {
         url : "<?php echo base_url();?>CManageKzBrand/getBrand/"+id,
         type : 'POST',
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             $('#editModal #response').html(response['html']);
             $('#editModal').modal('show');
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
       });
     }
@@ -250,6 +261,9 @@ function brandFormValidation(){
         type : 'POST',
         data: $('#brandForm').serializeArray(),
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             if(response['status']==1){
             $('#alert').show();
@@ -270,6 +284,9 @@ function brandFormValidation(){
         },
         error: function(xhr, status, error){
             alert(error);
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
     });
   }
@@ -290,6 +307,9 @@ function deleteNow(){
         type : 'POST',
         data : '',
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             $('#deleteModal').modal('hide');
 
@@ -299,6 +319,9 @@ function deleteNow(){
                 $('#ajaxDeleteResponseModal .modal-body').html(response['msg']);
                 $("#row-"+brand_id).remove();   
             }
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
     });
 }

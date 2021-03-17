@@ -58,7 +58,7 @@
                         <td class="modelImage" width=""><img src="<?php echo base_url().'productImages/'.$row['image']; ?>" width="70px" height="70px" alt="product image"/></td>
                         <td class="modelPrice" width=""><?php echo $row['price']; ?></td>
                         <td class="modelQuantity" width=""><?php echo $row['quantity']; ?></td>
-                        <td class="modelDescription" width=""><?php echo $row['description']; ?></td>
+                        <td class="modelDescription" width="" style="width: 100%; height: 100%; margin: 0; padding: 0; overflow: auto;"><?php echo $row['description']; ?></td>
                         <td class="modelCategory" width=""><?php echo $row['category_name']; ?></td>
                         <td class="modelBrand" width=""><?php echo $row['brand_name']; ?></td>
 						            <td class="modelAdded" width=""><?php echo date("d/m/Y h:i:sa", strtotime($row['added_date'])); ?></td>
@@ -80,7 +80,7 @@
 					            <?php } ?>
 					            </tbody>
 					        <tfoot>
-                            <tr class="bg-dark text-light">
+                      <tr class="bg-dark text-light">
 						            <th width="">ID</th>
                         <th width="">Name</th>
 						            <th width="">Image</th>
@@ -175,6 +175,10 @@
     </div>
   </div>
 </div>
+
+<!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
    <!-- jquery and script -->
  <?php
     $this->load->view('admin/adminFooter');
@@ -325,7 +329,7 @@ $( '#editModal').on( 'submit', '#productForm', function () {
   }else{
     event.preventDefault();
     if(image != ""){
-        $.ajax({
+    $.ajax({
       url : "<?php echo base_url();?>CManageKzProducts/updateProduct",
       type : 'POST',
       data : new FormData(this),
@@ -334,6 +338,9 @@ $( '#editModal').on( 'submit', '#productForm', function () {
       cache:false,
       async:false,
       dataType: 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success: function(response){
           if(response['status']==1){
             $('#alert').show();
@@ -358,6 +365,9 @@ $( '#editModal').on( 'submit', '#productForm', function () {
             $('#alert-msg').html(response['msg']);
             $("#alert").addClass("alert-danger");
           }
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
     });
     }else{
@@ -370,6 +380,9 @@ $( '#editModal').on( 'submit', '#productForm', function () {
       cache:false,
       async:false,
       dataType: 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success: function(response){
           if(response['status']==1){
             $('#alert').show();
@@ -391,6 +404,9 @@ $( '#editModal').on( 'submit', '#productForm', function () {
             $('#alert-msg').html(response['msg']);
             $("#alert").addClass("alert-danger");
           }
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
     });
     }
@@ -402,15 +418,21 @@ $( '#editModal').on( 'submit', '#productForm', function () {
 
 //show  edit form after cllicking on Edit Button
     function showEditForm(id){
-        $.ajax({
+      $.ajax({
         url : "<?php echo base_url();?>CManageKzProducts/getProduct/"+id,
         type : 'POST',
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             $('#editModal #response').html(response['html']);
             $('#editModal').modal('show');
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
-        });
+      });
     }
 
 //file validation
@@ -467,6 +489,9 @@ function deleteNow(){
         type : 'POST',
         data : '',
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             $('#deleteModal').modal('hide');
 
@@ -476,8 +501,11 @@ function deleteNow(){
                 $('#ajaxDeleteResponseModal .modal-body').html(response['msg']);
                 $("#row-"+pro_id).remove();   
             }
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
-        });
+      });
 }
 </script>
 </body>

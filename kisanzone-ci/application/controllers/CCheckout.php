@@ -29,18 +29,18 @@ class CCheckout extends CI_Controller{
         // Call to placeOrder() function and passing a customer id
         $boolOrder = $this->placeOrder($intCustomerId);
                     
-            // If the order submission is successful
-            if($boolOrder){
-                $this->session->set_flashdata('success_msg', 'Order placed successfully.');
-                if(!empty($this->session->flashdata('error_msg'))){
-                    $this->session->unset_userdata('error_msg');
-                }
-            }else{
-                $this->session->set_flashdata('error_msg', 'Order submission failed, please try again.');
-                if(!empty($this->session->flashdata('success_msg'))){
-                    $this->session->unset_userdata('success_msg');
-                }
+        // If the order submission is successful
+        if($boolOrder){
+            $this->session->set_flashdata('success_msg', 'Order placed successfully.');
+            if(!empty($this->session->flashdata('error_msg'))){
+                $this->session->unset_userdata('error_msg');
             }
+        }else{
+            $this->session->set_flashdata('error_msg', 'Order submission failed, please try again.');
+            if(!empty($this->session->flashdata('success_msg'))){
+                $this->session->unset_userdata('success_msg');
+            }
+        }
         
         // Redirect to orders page  
         redirect(base_url().'CCustomers/getOrders');

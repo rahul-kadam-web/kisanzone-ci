@@ -138,6 +138,8 @@
   </div>
 </div>
 
+<!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
 
 <!-- info section, footer section and Jquery links -->
 <?php
@@ -300,24 +302,30 @@ function editRegistrationFormValidation() {
     return false;
   }
  else{
-//     if(mobile != <?php echo $row['mobile']; ?>){
-//     otp = generateOtp();
-//      $.ajax({
-//      url: "<?php echo base_url();?>CCustomers/sendOtp",
-//      type: 'POST',
-//      data: {"mobile":mobile, "otp":otp},
-//      dataType: 'json',
-//      success: function(response){
-//       if(response['return'] == true){
-//         $('#otpConfirmationModal').modal('show');
-//         $('.modal-title').html('Otp is sent to your mobile number');
-//       }
-//      }
-//    });
-//    return false;
-// }else{
-    editCustomerDetails(); // Due to the fast2sms not working for otp verification when mobile number change
-// }
+    if(mobile != <?php echo $row['mobile']; ?>){
+    otp = generateOtp();
+     $.ajax({
+     url: "<?php echo base_url();?>CCustomers/sendOtp",
+     type: 'POST',
+     data: {"mobile":mobile, "otp":otp},
+     dataType: 'json',
+     beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
+     success: function(response){
+      if(response['return'] == true){
+        $('#otpConfirmationModal').modal('show');
+        $('.modal-title').html('Otp is sent to your mobile number');
+      }
+     },
+     complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+       $('#loader').addClass('hidden')
+     }
+   });
+   return false;
+}else{
+    editCustomerDetails();
+ }
  }
  
 }
@@ -341,9 +349,12 @@ $('#mobile').change(function(){
             mobileExist=0;
             document.getElementById("mobileExistError").innerHTML="";
           }
-        }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      }
     });
-}
+  }
 });
 
 // Function to generate OTP 
@@ -370,6 +381,9 @@ $("#btnVerifyOtp").click(function(){
       type : 'POST',
       data :  $("#editRegistrationForm").serializeArray(),
       dataType : 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success : function(response){
           if(response['status'] == 1){
             alert("Your details updated succeessfully!");
@@ -377,7 +391,10 @@ $("#btnVerifyOtp").click(function(){
           }else{
             alert("Something went wrong! Please try later!");
           }
-        }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      }
     });
   }else{
     $("#otpNumberError").html("Invalid otp");
@@ -391,6 +408,9 @@ function editCustomerDetails(){
       type : 'POST',
       data :  $("#editRegistrationForm").serializeArray(),
       dataType : 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success : function(response){
           if(response['status'] == 1){
             alert("Your details updated succeessfully!");
@@ -398,7 +418,10 @@ function editCustomerDetails(){
           }else{
             alert("Something went wrong! Please try later!");
           }
-        }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      }
     });
 }
 </script>

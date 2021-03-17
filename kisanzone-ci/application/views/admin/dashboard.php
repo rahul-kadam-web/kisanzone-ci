@@ -22,8 +22,68 @@
             ?>
            <!-- end admin top navabr -->
 
-           <h3>Dashbaord</h3>
-           <p>Currently no contents</p>
+           <h3>Dashboard</h3>
+           <div class="container">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="card-counter primary">
+                    <i class="fas fa-sitemap"></i>
+                    <span class="count-numbers">
+                      <?php 
+                        if(!empty($products)){
+                          echo $products; 
+                        } 
+                      ?>
+                    </span>
+                    <span class="count-name">Products</span>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="card-counter danger">
+                    <i class="fas fa-briefcase"></i>
+                    <span class="count-numbers">
+                      <?php 
+                        if(!empty($brand)){
+                          echo $brand; 
+                        } 
+                      ?>
+                    </span>
+                    <span class="count-name">Brands</span>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="card-counter success">
+                    <i class="fas fa-ellipsis-h"></i>
+                    <span class="count-numbers">
+                      <?php 
+                        if(!empty($category)){
+                          echo $category; 
+                        } 
+                      ?>
+                    </span>
+                    <span class="count-name">Categories</span>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="card-counter info">
+                    <i class="fa fa-users"></i>
+                    <span class="count-numbers">
+                      <?php 
+                        if(!empty($customers)){
+                          echo $customers; 
+                        } 
+                      ?>
+                    </span>
+                    <span class="count-name">Users</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
         </div>
     </div>
 

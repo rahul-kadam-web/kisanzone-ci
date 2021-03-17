@@ -21,7 +21,7 @@
             ?>
                <form name="brandForm" id="brandForm" onsubmit="return brandFormValidation()">
                 <div class="row">
-                    <div class="col-12 col-md-12 col-lg-6 offset-lg-3">
+                    <div class="col-12 col-md-12 col-lg-8 offset-lg-2">
                         <div class="card">
                             <div class="card-body text-center">
                                 <h5 class="card-title text-lg"><u>Add Brand</u></h5>
@@ -43,12 +43,15 @@
                                     <button type="reset" class="card-link btn btn-danger">Reset</button>
                              </div>
                         </div>
-                      
                     </div>
                 </div>
-                </form>
+              </form>
         </div>
     </div>
+
+<!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+ 
 
 <script type="text/javascript">
 // brand form validation using javascript
@@ -78,6 +81,9 @@ function brandFormValidation(){
       type : 'POST',
       data : $("#brandForm").serializeArray(),
       dataType : 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success : function(response){
           if(response['status']==1){
             brandForm.reset();
@@ -89,7 +95,10 @@ function brandFormValidation(){
             $('#alert-msg').html("Record not added!!");
             $("#alert").addClass("alert-danger");
           }
-        }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      }
     });
   }
 }

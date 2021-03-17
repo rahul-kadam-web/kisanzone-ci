@@ -2,6 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CManageKzProducts Extends CI_Controller{
+
+    function  __construct(){
+        parent::__construct();
+
+        //the user is not logged in, redirected to login page!
+        if (empty($this->session->userdata('admin_id')))
+        {
+            redirect(base_url().'CAdminManage/index'); 
+        }
+    }
+
+
     // Load list of products
     public function index(){
         $this->load->model('CProductsModel');

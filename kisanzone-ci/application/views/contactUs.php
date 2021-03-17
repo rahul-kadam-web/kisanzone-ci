@@ -18,13 +18,17 @@
       <div class="row">
         <div class="col-md-10 offset-md-10 col-12 col-lg-10 offset-lg-1">
           <div class="box">
-            <div class="heading_container heading_center bg-light pt-2 pb-2">
+            <div class="heading_container bg-light heading_center pt-2 pb-2">
               <h3>
                Contact Us
              </h3>
-          </div>
-          <hr>
-            <form name="contactForm" method="post" onsubmit="return contactFormValidation()">
+            </div>
+            <hr>
+              <div id="alert" class="alert alert-dismissible">
+                <div id="alert-msg"></div>
+                  <button type="button" class="close">&times;</button>
+              </div>
+            <form name="contactForm" id="contactForm" onsubmit="return contactFormValidation()">
               <div class="row">
                 <div class="col-md-4 col-12">
                   <div class="form-group">
@@ -78,6 +82,10 @@
   </section>
 
   <!-- end contactus section -->
+
+  <!-- While ajax process request -->
+  <div id="loader" class="lds-dual-ring hidden overlay"></div>
+
   
 <!-- info section, footer section and Jquery links -->
 <?php
@@ -152,9 +160,41 @@ function contactFormValidation() {
 
   if(count > 0){
     return false;
+  }else{
+    event.preventDefault();
+
+    $.ajax({
+      url : "<?php echo base_url();?>CHome/saveContactUs",
+      type : 'POST',
+      data : $("#contactForm").serializeArray(),
+      dataType : 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
+      success : function(response){
+          if(response['status']==1){
+            contactForm.reset();
+            $('#alert').show();
+            $('#alert-msg').html(response['msg']);
+            $("#alert").addClass("alert-success");
+          }else{
+            $('#alert').show();
+            $('#alert-msg').html("Record not added!!");
+            $("#alert").addClass("alert-danger");
+          }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      }
+    });
   }
 
 }
+
+
+$(document).ready(function(){
+  $('#alert').hide();
+});
 </script>
 </body>
 

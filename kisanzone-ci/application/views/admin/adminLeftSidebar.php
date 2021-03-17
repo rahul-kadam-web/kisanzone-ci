@@ -6,7 +6,7 @@
 
             <ul class="list-unstyled components">
                 <li id="home">
-                    <a href="<?php echo site_url('CAdminManager/index'); ?>">
+                    <a href="<?php echo site_url('CAdminManage/adminDashboard'); ?>">
                     <i class="fas fa-home"></i>
                         Home
                     </a>
@@ -76,10 +76,6 @@
                         </li>
                     </ul>
                 </li>
-                <br><hr>
-                <li class="text-center">
-                    <button class="btn btn-danger">Logout</button>
-                </li>
                 <!-- icons -->
                 <!-- <i class="fas fa-paper-plane"></i>
                 <i class="fas fa-image"></i>
@@ -87,4 +83,8 @@
                 <i class="fas fa-question"></i>
             <i class="fas fa-list"></i> -->
             </ul>
+            <div class="text-center">
+                <?php echo anchor('CAdminManage/logout', 'Logout', 'class="btn btn-danger"'); ?>
+            </div>
+            <br>
         </nav>

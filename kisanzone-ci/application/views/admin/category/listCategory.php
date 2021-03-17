@@ -155,6 +155,9 @@
   </div>
 </div>
 
+<!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
 <!-- jquery and script -->
  <?php
     $this->load->view('admin/adminFooter');
@@ -217,15 +220,21 @@ $(document).ready(function() {
 
 //show  edit form after cllicking on Edit Button
     function showEditForm(id){
-        $.ajax({
+      $.ajax({
         url : "<?php echo base_url();?>CManageKzCategory/getCategory/"+id,
         type : 'POST',
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             $('#editModal #response').html(response['html']);
             $('#editModal').modal('show');
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
-        });
+      });
     }
 
 function categoryFormValidation(){
@@ -253,6 +262,9 @@ function categoryFormValidation(){
         type : 'POST',
         data: $('#categoryForm').serializeArray(),
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             if(response['status']==1){
             $('#alert').show();
@@ -273,6 +285,9 @@ function categoryFormValidation(){
         },
         error: function(xhr, status, error){
             alert(error);
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
     });
   }
@@ -291,6 +306,9 @@ function deleteNow(){
         type : 'POST',
         data : '',
         dataType : 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
         success : function(response){
             $('#deleteModal').modal('hide');
 
@@ -300,8 +318,11 @@ function deleteNow(){
                 $('#ajaxDeleteResponseModal .modal-body').html(response['msg']);
                 $("#row-"+cat_id).remove();   
             }
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
         }
-        });
+    });
 }
 </script>
 </body>

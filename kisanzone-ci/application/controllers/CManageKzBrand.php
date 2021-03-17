@@ -3,6 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CManageKzBrand Extends CI_Controller{
 
+    function  __construct(){
+        parent::__construct();
+
+        //if customer is not logged in, redirected to login page!
+        if (empty($this->session->userdata('admin_id')))
+        {
+            redirect(base_url().'CAdminManage/index'); 
+        }
+    }
+
     // Load list of brand
     public function index(){
         $this->load->model('CBrandModel');

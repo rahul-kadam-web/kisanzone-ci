@@ -42,6 +42,11 @@ class CCategoryModel extends CI_Model{
         //delete from category where cat_id=
         return $intId;
     }
+
+    // Count the category records
+    function fetchCount(){
+        return $this->db->get('category')->num_rows();
+    }
 }
 
 ?>

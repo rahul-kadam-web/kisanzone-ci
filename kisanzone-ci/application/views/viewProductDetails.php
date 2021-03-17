@@ -51,7 +51,6 @@
   </section>
   <!-- end viewProductDetails section -->
 
-
 <!-- info section, footer section and Jquery links -->
 <?php
 $this->load->view('footerInfoSection')
@@ -63,6 +62,30 @@ $this->load->view('footerInfoSection')
 });  
 </script>
 
+<!-- store recently viewed product which are here -->
+<?php
+    $intCustomerId = $this->session->userdata('cus_id');
+
+    if(!empty($intCustomerId)){
+    ?>
+    <script>
+    $.ajax({
+        url: "<?php echo base_url().'CCustomers/recentlyViewedProducts'; ?>",
+        type: "POST",
+        data: {
+            "cus_id":<?php echo $intCustomerId; ?>,
+            "pro_id":<?php echo $products['pro_id']; ?>
+        },
+        dataType: 'json',
+        success: function(response){
+
+        }
+    });
+    
+    </script>
+    <?php
+    }
+?>
 </body>
 
 </html>

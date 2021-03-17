@@ -22,7 +22,7 @@
             ?>
                 <form name="categoryForm" id="categoryForm" onsubmit="return categoryFormValidation()">
                 <div class="row">
-                    <div class="col-12 col-md-12 col-lg-6 offset-lg-3">
+                    <div class="col-12 col-md-12 col-lg-8 offset-lg-2">
                         <div class="card">
                             <div class="card-body text-center">
                                 <h5 class="card-title text-lg"><u>Add Category</u></h5>
@@ -44,12 +44,15 @@
                                     <button type="reset" class="card-link btn btn-danger">Reset</button>
                              </div>
                         </div>
-                      
                     </div>
                 </div>
               </form>
         </div>
     </div>
+
+<!-- While ajax process request -->
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+ 
 
 <script type="text/javascript">
 // category form validation
@@ -77,6 +80,9 @@ function categoryFormValidation(){
       type : 'POST',
       data : $("#categoryForm").serializeArray(),
       dataType : 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
       success : function(response){
           if(response['status']==1){
             categoryForm.reset();
@@ -88,7 +94,10 @@ function categoryFormValidation(){
             $('#alert-msg').html("Record not added!!");
             $("#alert").addClass("alert-danger");
           }
-        }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      }
     });
   }
 }

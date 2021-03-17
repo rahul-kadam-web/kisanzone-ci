@@ -10,7 +10,7 @@ class CCart extends CI_Controller{
         $this->load->library('cart');
     }
     
-    // Load shopping cart view to user
+    // Load shopping cart view to customer
     function index(){
         $data = array();
         

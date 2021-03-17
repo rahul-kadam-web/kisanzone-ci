@@ -7,11 +7,10 @@ class CHome Extends CI_Controller{
         parent::__construct();
         
         // Load cart library
-        $this->load->library('cart');
-        
+        $this->load->library('cart');   
     }
     
-    // Load welcone view
+    // Load welcome view to all user
     function index(){
         $this->load->model('CProductsModel');
 
@@ -20,6 +19,14 @@ class CHome Extends CI_Controller{
         // Fetch products from the database
         $data['products'] = $this->CProductsModel->getProductsRows();
         
+        
+        $cus_id = $this->session->userdata('cus_id');
+        if(empty($cus_id)){
+            $data['recently_viewed_products'] = null;
+        }else{
+        $this->load->model('CRecentlyViewedProductsModel');
+        $data['recently_viewed_products'] = $this->CRecentlyViewedProductsModel->getRecentlyViewedProductsRows($cus_id);
+        }
         // Load the product list view
         $this->load->view('welcome', $data);
     }
@@ -30,7 +37,7 @@ class CHome Extends CI_Controller{
         
         $data = array();
         
-        // Fetch products from the database
+        // Fetch a product from the database to show particular product detail
         $data['products'] = $this->CProductsModel->fetchRow($intProductId);
         $this->load->view('viewProductDetails',$data);
     }
@@ -69,6 +76,28 @@ class CHome Extends CI_Controller{
     // Load the contact us view
     public function contactUs(){
         $this->load->view('contactUs');
+    }
+
+    // Save Contact us Record
+    public function saveContactUs()
+    {
+     $this->load->model('CContactUsModel');
+
+     $formArray = array();
+     
+     $formArray['name'] = $this->input->post('name');
+     $formArray['email'] = $this->input->post('email');
+     $formArray['mobile'] = $this->input->post('mobile');
+     $formArray['subject'] = $this->input->post('subject');
+     $formArray['description'] = $this->input->post('desc');
+
+    //  Storing response of user
+     $this->CContactUsModel->create($formArray);
+    
+    // Loading response
+     $response['status'] = 1;
+     $response['msg'] = 'Your response has been saved successfully! We will reach to it shortly.';
+     echo json_encode($response);
     }
 }
 ?>

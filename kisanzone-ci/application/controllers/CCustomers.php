@@ -52,6 +52,7 @@ class CCustomers Extends CI_Controller{
         }
     }
 
+    
      // save or insert record to customer table
     public function saveCustomer(){
         $this->load->model('CCustomersModel');
@@ -142,6 +143,7 @@ class CCustomers Extends CI_Controller{
         }
     }
 
+    // It's check authentication of customer
     function login(){
         $this->load->model('CCustomersModel');
 
@@ -288,7 +290,29 @@ class CCustomers Extends CI_Controller{
         $this->load->view('orders', $data);
     }
 
-    
+    function recentlyViewedProducts(){
+        $this->load->model('CRecentlyViewedProductsModel');
+
+        $formArray = array();
+
+        $formArray['cus_id'] = $this->input->post('cus_id');
+        $formArray['pro_id'] = $this->input->post('pro_id');
+
+        $boolResponse = $this->CRecentlyViewedProductsModel->create($formArray);
+
+        if($boolResponse){
+            $response['status'] = 1;
+        }else{
+            $response['status'] = 0;
+        }
+
+        echo json_encode($response);
+    }
+
+    function forgotPassword(){
+        $this->load->view('forgotPassword');
+    }
+
     // Destroy session
     function logout(){
         $this->session->sess_destroy();

@@ -90,6 +90,11 @@ class CProductsModel extends CI_Model{
         return $insert?true:false;
     }
 
+    // Count tthe product records
+    function fetchCount(){
+        return $this->db->get('products')->num_rows();
+    }
+
 }
 
 ?>
