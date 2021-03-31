@@ -58,7 +58,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Mobile</label>
-                    <input type="number" value="<?php echo $row['mobile']; ?>"  name="mobile" id="mobile" value="<?php echo $row['mobile']; ?>" class="form-control">
+                    <input type="tel" onkeypress="onlyNumberKey(event)" maxlength="10" value="<?php echo $row['mobile']; ?>"  name="mobile" id="mobile" value="<?php echo $row['mobile']; ?>" class="form-control">
                     <span id="mobileError" class="text-danger"></span>
                     <span id="mobileExistError" class="text-danger"></span>
                   </div>
@@ -126,7 +126,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <input type="number" id="otpNumber" class="form-control">
+        <input type="tel" maxlength="6" id="otpNumber" class="form-control">
         <span id="otpNumberError" class="text-danger"></span>
       </div>
 
@@ -194,6 +194,20 @@ $(document).ready(function(){
         $('#btnSubmit').hide();
     });
 });
+
+
+// Enter number only for mobile field    
+function onlyNumberKey(evt) { 
+  // Only ASCII charactar in that range allowed 
+  var ASCIICode = (evt.which) ? evt.which : evt.keyCode; 
+
+  if (ASCIICode < 48 || ASCIICode > 57){ 
+    document.getElementById('mobileError').innerHTML = "Enter number only";
+    return false;
+  }else{
+    document.getElementById('mobileError').innerHTML = "";
+  } 
+} 
 
 // editRegistrationForm validation
 function editRegistrationFormValidation() {
@@ -298,36 +312,39 @@ function editRegistrationFormValidation() {
   }
 
   // to check validation error and to check emailExist count 
-  if(count > 0 || mobileExist > 0){
+  if(count > 0){
     return false;
   }
- else{
-    if(mobile != <?php echo $row['mobile']; ?>){
-    otp = generateOtp();
-     $.ajax({
-     url: "<?php echo base_url();?>CCustomers/sendOtp",
-     type: 'POST',
-     data: {"mobile":mobile, "otp":otp},
-     dataType: 'json',
-     beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-        $('#loader').removeClass('hidden')
-      },
-     success: function(response){
-      if(response['return'] == true){
-        $('#otpConfirmationModal').modal('show');
-        $('.modal-title').html('Otp is sent to your mobile number');
-      }
-     },
-     complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-       $('#loader').addClass('hidden')
-     }
-   });
-   return false;
-}else{
-    editCustomerDetails();
- }
- }
- 
+  else if(mobileExist > 0)
+  {
+    return false;
+  }
+  else{
+   if(mobile != <?php echo $row['mobile']; ?>){
+      otp = generateOtp();
+      $.ajax({
+        url: "<?php echo base_url();?>CCustomers/sendOtp",
+        type: 'POST',
+        data: {"mobile":mobile, "otp":otp},
+        dataType: 'json',
+        beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+          $('#loader').removeClass('hidden')
+        },
+        success: function(response){
+          if(response['return'] == true){
+            $('#otpConfirmationModal').modal('show');
+            $('.modal-title').html('Otp is sent to your mobile number');
+          }
+        },
+        complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+          $('#loader').addClass('hidden')
+        }
+      });
+      return false;
+    }else{
+      editCustomerDetails();
+    }
+  }
 }
 
 // to check mobile already exists or not
@@ -354,6 +371,9 @@ $('#mobile').change(function(){
         $('#loader').addClass('hidden')
       }
     });
+  }else{
+    mobileExist=0;
+    document.getElementById("mobileExistError").innerHTML="";
   }
 });
 

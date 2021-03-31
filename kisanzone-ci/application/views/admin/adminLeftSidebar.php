@@ -56,23 +56,43 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+
+                <li id="reports">
                     <a href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fas fa-list"></i>
                         Reports
                     </a>
                     <ul class="collapse list-unstyled" id="reportsSubmenu">
                         <li>
-                            <a href="#">Report 1</a>
+                            <a href="<?php echo site_url('CReports/productsInventory'); ?>">Products Inventory</a>
                         </li>
+
                         <li>
-                            <a href="#">Report 2</a>
+                            <a href="<?php echo site_url('CReports/ordersList'); ?>">Orders List</a>
                         </li>
+
                         <li>
-                            <a href="#">Report 3</a>
+                            <a href="<?php echo site_url('CReports/cancelledOrdersList'); ?>">Cancelled Orders List</a>
                         </li>
+
                         <li>
-                            <a href="#">Report 4</a>
+                            <a href="<?php echo site_url('CReports/monthlySaleOfProducts'); ?>">Monthly Sale of Products</a>
+                        </li>
+
+                        <li>
+                            <a href="<?php echo site_url('CReports/categorywiseMonthlySaleOfProducts'); ?>">Categorywise monthly sale of products</a>
+                        </li>
+
+                        <li>
+                            <a href="<?php echo site_url('CReports/mostViewedProducts'); ?>">Most Viewed Products</a>
+                        </li>
+
+                        <li>
+                            <a href="<?php echo site_url('CReports/usersInventory'); ?>">Users List</a>
+                        </li>
+
+                        <li>
+                            <a href="<?php echo site_url('CReports/usersFeedback'); ?>">Users Feedback</a>
                         </li>
                     </ul>
                 </li>

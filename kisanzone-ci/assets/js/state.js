@@ -19,8 +19,9 @@ $(function() {
 });
 function selct_district($val)
 {
-    if($val=='SELECT STATE') {
+    if($val=='') {
    var options = '';
+   options = '<option value="">Select City</option>';
   $('#secondlist').html(options);
   }
  if($val=='Andhra Pradesh') {

@@ -21,16 +21,16 @@ $this->load->view('head');
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <img class="d-block img-fluid" src="<?php echo base_url().'assets/images/Slider-1.jpg'; ?>" alt="Slider-1">
-                <div class="carousel-caption font-weight-bold">
-                  <h1 class="text-warning"> Welcome to our kisanzone shop</h1>
-                  <h4>We are selling agricutural products online with information to the our indean farmers.</h4>
+                <div class="carousel-caption">
+                  <h1 class="text-warning font-weight-bold"> Welcome to our kisanzone shop</h1>
+                  <h4 class="font-weight-bold">We are selling agricutural products online with information to the our indean farmers.</h4>
                 </div>   
               </div>
               <div class="carousel-item">
                 <img class="d-block img-fluid" src="<?php echo base_url().'assets/images/Slider-2.jpg'; ?>" alt="Slider-2">
                 <div class="carousel-caption font-weight-bold">
-                  <h1 class="text-warning">Looking for great and trusted deal</h1>
-                  <h4>So we are here to provide you assured products. You can shop here without any fear</h4>
+                  <h1 class="text-warning font-weight-bold">Looking for great and trusted deal</h1>
+                  <h4 class="font-weight-bold">So we are here to provide you assured products. You can shop here without any fear</h4>
                 </div>   
               </div>
            </div>

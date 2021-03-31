@@ -35,9 +35,9 @@
                             <img src="<?php echo base_url().'productImages/'.$item["image"]; ?>" width="100"/>
                             </td>
                             <td><?php echo $item["name"]; ?></td>
-                            <td><?php echo '$'.$item["price"].' Rs'; ?></td>
+                            <td><?php echo '<i class="fa fa-inr"></i> '.$item["price"].' Rs'; ?></td>
                             <td><input type="number" min="1" class="form-control text-center" value="<?php echo $item["qty"]; ?>" onchange="updateCartItem(this, '<?php echo $item['rowid']; ?>')"></td>
-                            <td class="text-right"><?php echo '$'.$item["subtotal"].' Rs'; ?></td>
+                            <td class="text-right"><?php echo '<i class="fa fa-inr"></i> '.$item["subtotal"].' Rs'; ?></td>
                             <td class="text-right"><button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete item?')?window.location.href='<?php echo base_url('CCart/removeItem/'.$item['rowid']); ?>':false;"><i class="fa fa-trash"></i> </button> </td>
                         </tr>
                     <?php } }else{ ?>
@@ -49,7 +49,7 @@
                             <td></td>
                             <td></td>
                             <td><strong>Cart Total</strong></td>
-                            <td class="text-right"><strong><?php echo '$'.$this->cart->total().' Rs'; ?></strong></td>
+                            <td class="text-right"><strong><?php echo '<i class="fa fa-inr"></i> '.$this->cart->total().' Rs'; ?></strong></td>
                             <td></td>
                         </tr>
                     <?php } ?>

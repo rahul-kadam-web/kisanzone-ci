@@ -56,12 +56,26 @@
                         <div class="col-4 col-md-2">
                             <p><i class="fa fa-inr"></i><?php echo $orderRow['sub_total']; ?></p>
                         </div>
+                        <?php if($orderRow['status'] == 1){ ?>
                         <div class="col-8 col-md-4">
-                            <p>
+                            <p class=>
                             <b>Delivery address</b><br>
                             <?php echo $orderRow['address']; ?>, <?php echo $orderRow['city']; ?>, <?php echo $orderRow['state']; ?>, <?php echo $orderRow['pin']; ?>
                             </p>
+                            <p class="text-right">
+                                <a href="<?php echo site_url("CCustomers/cancelOrder?pro_id=".$orderRow["pro_id"]."&order_id=".$orderRow["order_id"]."&quantity=".$orderRow['quantity']."&price=".($orderRow['grand_total']-$orderRow['sub_total']));?>" class="text-light badge badge-primary">
+                                    <i class="fa fa-close font-weight-bold"> Cancel item</i>
+                                </a>
+                            </p>
                         </div>
+                        <?php }else{ ?>
+                        <div class="col-8 col-md-4">
+                            <p>
+                            <span class="badge badge-pill badge-danger">&nbsp;</span><b> Cancelled</b><br>
+                            <span class="text-muted"> You requested a cancellation because you changed your mind about this product</span>
+                            </p>
+                        </div>
+                        <?php } ?>
                      </div>
                 </div>            
         <?php }  
@@ -80,4 +94,4 @@ $this->load->view('footerInfoSection')
 
 </body>
 
-</html>
+</html>                                                             

@@ -47,7 +47,7 @@
                 <div class="col-md-4 col-12">
                   <div class="form-group">
                     <label>Mobile</label>
-                    <input type="text" name="mobile" class="form-control">
+                    <input type="tel" onkeypress="onlyNumberKey(event)" maxlength="10" name="mobile" class="form-control">
                     <span id="mobileError" class="text-danger"></span>
                   </div>
                 </div>
@@ -92,6 +92,21 @@
 $this->load->view('footerInfoSection')
 ?>
 <script type="text/javascript">
+
+ // Enter number only for mobile field
+    
+ function onlyNumberKey(evt) { 
+          // Only ASCII charactar in that range allowed 
+          var ASCIICode = (evt.which) ? evt.which : evt.keyCode; 
+
+          if (ASCIICode < 48 || ASCIICode > 57){ 
+            document.getElementById('mobileError').innerHTML = "Enter number only";
+            return false;
+          }else{
+            document.getElementById('mobileError').innerHTML = "";
+          } 
+      } 
+
 // contact us form validation using javascript
 function contactFormValidation() {
   //regular expressions

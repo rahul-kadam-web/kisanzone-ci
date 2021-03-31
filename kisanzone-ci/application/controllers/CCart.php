@@ -10,8 +10,31 @@ class CCart extends CI_Controller{
         $this->load->library('cart');
     }
     
+    // it will add item to cart
+    function addToCart($proID){
+        $this->load->model('CKzProductsModel');
+        
+        // Fetch specific product by ID
+        $product = $this->CKzProductsModel->fetchRow($proID);
+        
+        // Add product to the cart
+        $data = array(
+            'id'    => $product['pro_id'],
+            'qty'    => 1,
+            'price'    => $product['price'],
+            'name'    => $product["name"],
+            'image' => $product['image']
+        );
+        $this->cart->insert($data);
+        
+        // Redirect to the cart page
+        redirect(base_url().'CCart');
+
+    }
+
     // Load shopping cart view to customer
     function index(){
+        // Create array object
         $data = array();
         
         // Retrieve cart data from the session using contents() function

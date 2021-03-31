@@ -1,0 +1,17 @@
+https://www.codexworld.com/codeigniter-shopping-cart-checkout-implementation/
+
+
+https://www.webslesson.info/2017/03/ajax-jquery-codeigniter-shopping-cart.html
+
+
+
+link of report
+https://www.freeprojectz.com/project-report/1674
+
+
+Cron job link
+https://glennstovall.com/writing-cron-job-in-codeigniter/
+https://sumitbansal.com/scripts/how-to-create-a-auto-scheduling-task-cron-job-or-scheduled-task/
+to run batch file
+https://stackoverflow.com/questions/47863047/how-to-execute-php-codeigniter-controller-from-batch-file/49536032
+Heroku for deployment

@@ -291,8 +291,9 @@ a:focus {
 
 /*end header section*/
 .slider_section{
-  margin: 10px 0px;
+  margin: 2px 0px;
 }
+
 
 /* Make the image fully responsive */
 .carousel-inner img {
@@ -550,11 +551,11 @@ a:focus {
 }
 
 .login_section .box, .signup_section .box, .contactus_section .box {
-  margin-top: 10px;
+  margin-top: 0px;
   text-align: left;
   -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
           box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
-  padding: 25px 15px;
+  padding: 25px 25px;
 }
 
 .login_section .box .login-btn,.signup_section .box .signup-btn, .contactus_section .box .contactus-btn{
@@ -675,6 +676,31 @@ a:focus {
 .footer_section p a {
   color: inherit;
 }
+
+#forMobileNumberEnterView h5, #forOtpEnterView h5, #forPasswordEnterView h5{
+  color: #3a4468;
+}
+
+
+#forMobileNumberEnterView button, #forOtpEnterView button, #forPasswordEnterView button{
+  padding: 8px 35px;
+  outline: none;
+  border: none;
+  color: #ffffff;
+  background: #3a4468;
+  margin-top: 15px;
+  text-transform: uppercase;
+}
+
+#forgotPassword{
+ margin-top: 100px;;
+}
+
+.forgot-password-link, .signup-link, .login-link{
+  color: #3a4468;
+}
+
+
 /*# sourceMappingURL=style.css.map */
 
 /*Hidden class for adding and removing for loading while ajax process request*/
@@ -721,3 +747,4 @@ a:focus {
       transform: rotate(360deg);
   }
 }
+

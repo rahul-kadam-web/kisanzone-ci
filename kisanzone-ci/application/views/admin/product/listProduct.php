@@ -58,7 +58,7 @@
                         <td class="modelImage" width=""><img src="<?php echo base_url().'productImages/'.$row['image']; ?>" width="70px" height="70px" alt="product image"/></td>
                         <td class="modelPrice" width=""><?php echo $row['price']; ?></td>
                         <td class="modelQuantity" width=""><?php echo $row['quantity']; ?></td>
-                        <td class="modelDescription" width="" style="width: 100%; height: 100%; margin: 0; padding: 0; overflow: auto;"><?php echo $row['description']; ?></td>
+                        <td class="modelDescription"><div style="width:300px; height:100px; overflow: auto;"><?php echo $row['description']; ?></div></td>
                         <td class="modelCategory" width=""><?php echo $row['category_name']; ?></td>
                         <td class="modelBrand" width=""><?php echo $row['brand_name']; ?></td>
 						            <td class="modelAdded" width=""><?php echo date("d/m/Y h:i:sa", strtotime($row['added_date'])); ?></td>
@@ -198,7 +198,7 @@ $(document).ready(function() {
 			buttons: [
 				{
 					extend: 'colvis',
-					text: 'Columns',
+					text: 'Sort by columns',
 				},
 				{
 				extend: 'print',
@@ -208,7 +208,7 @@ $(document).ready(function() {
 				var dd = d.getDate();
 				var mm = d.getMonth();
 				var yy = d.getFullYear();
-				var text = 'Test | '+d;
+				var text = 'Products | '+d;
 				return text;
 				},
 				exportOptions: {
@@ -220,7 +220,7 @@ $(document).ready(function() {
 						title: '',
 						messageTop: function () {
 						var d = new Date();
-						var text = 'Test | '+d;
+						var text = 'Products | '+d;
 						return text;
 				},
 				filename: function(){
@@ -228,14 +228,19 @@ $(document).ready(function() {
 					var dd = d.getDate();
 					var mm = d.getMonth();
 					var yy = d.getFullYear();
-					var text = 'Test '+dd+'-'+mm+'-'+yy;
+					var text = 'Products '+dd+'-'+mm+'-'+yy;
 					return text;
 				},
 				exportOptions: {
 					columns: ':visible'
 				}
 			    }
-			    ]
+        ]// ,
+        
+        // scrollX:        true,
+        // columnDefs: [
+        //     { width: 300, targets: 5 }
+        // ]
 		});
 
 
@@ -245,7 +250,7 @@ $(document).ready(function() {
     });
 
 
-
+// edit form validation of productForm
 $( '#editModal').on( 'submit', '#productForm', function () { 
   //regular expressions
   var nameRegularE = /^[A-Z 0-9 a-z]{2,20}$/;

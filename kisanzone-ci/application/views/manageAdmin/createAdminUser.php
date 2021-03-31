@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>kisanzone-admin</title>
+    <title>kisanzone-admin-user</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -44,8 +44,9 @@
                     </div>
                     <div class="form-group">
                         <label for="">Username</label>
-                        <input type="text" name="username" class="form-control">
+                        <input type="text" id="username" name="username" class="form-control">
                         <span id="usernameError" class="text-danger"></span>
+                        <span id="usernameExistError" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="">Email</label>
@@ -86,6 +87,9 @@
 
     //Email Exists
     var emailExist = 0;
+
+     //Username Exists
+     var usernameExist = 0;
 
     //Change the type of input to password or text 
     function showPassword() { 
@@ -146,7 +150,7 @@ function createAdminUserFormValidation(){
   }
 
 // to check validation error and emailExist count
-  if(count > 0 || emailExist > 0){
+  if(count > 0 || emailExist > 0 || usernameExist > 0){
     event.preventDefault();
   }else{
     event.preventDefault();
@@ -177,6 +181,35 @@ function createAdminUserFormValidation(){
   }
 }
 
+
+// to check username already exists or not
+$('#username').change(function(){
+  var username = document.forms["createAdminUserForm"]["username"].value;
+    $.ajax({
+      url : "<?php echo base_url();?>CAdminUser/usernameAlreadyExistOrNot",
+      type : 'POST',
+      data : {"username" : username},
+      dataType : 'json',
+      beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+        $('#loader').removeClass('hidden')
+      },
+      success : function(response){
+          if(response['status'] == 1){
+            document.getElementById("usernameExistError").innerHTML="Username already taken. Plz try for another username";
+            document.getElementById("usernameError").innerHTML="";
+            usernameExist=1;
+            }else{
+            usernameExist=0;
+            document.getElementById("usernameExistError").innerHTML="";
+          }
+      },
+      complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+        $('#loader').addClass('hidden')
+      },
+    });
+});
+
+
 // to check email already exists or not
 $('#email').change(function(){
   var email = document.forms["createAdminUserForm"]["email"].value;
@@ -203,6 +236,8 @@ $('#email').change(function(){
       },
     });
 });
+
+
 
     </script>
 

@@ -53,7 +53,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Mobile</label>
-                    <input type="number" id="mobile" value="" name="mobile" class="form-control">
+                    <input  type="tel" onkeypress="onlyNumberKey(event)" maxlength="10" id="mobile" value="" name="mobile" class="form-control">
                     <span id="mobileError" class="text-danger"></span>
                     <span id="mobileExistError" class="text-danger"></span>
                   </div>
@@ -71,7 +71,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Pin</label>
-                    <input type="number" name="pin" class="form-control">
+                    <input type="number" maxlength="6" name="pin" class="form-control">
                     <span id="pinError" class="text-danger"></span>
                   </div>
                 </div>
@@ -107,7 +107,7 @@
                 <button type="submit" class="signup-btn">Signup</button>
                 <button type="reset" class="reset-btn">Reset</button>
                 <br>
-                <a href="<?php echo site_url('CCustomers/index'); ?>" class="text-info">Already register?<br> login here..</a>
+                <a href="<?php echo site_url('CCustomers/index'); ?>" class="login-link">Already register?<br> login here..</a>
               </div>
             </form>
           </div>
@@ -131,7 +131,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <input type="number" id="otpNumber" class="form-control">
+        <input type="tel" maxlength="6" id="otpNumber" class="form-control">
         <span id="otpNumberError" class="text-danger"></span>
       </div>
 
@@ -155,6 +155,7 @@ $this->load->view('footerInfoSection')
 <script type="text/javascript">
 // to check at the validation time 
 var mobileExist=0;
+
 //sent  otp
 var otp;
 
@@ -165,6 +166,20 @@ function showPassword() {
     pass.type = "text"; 
   } else { 
       pass.type = "password"; 
+  } 
+} 
+
+
+// Enter number only for mobile field    
+function onlyNumberKey(evt) { 
+  // Only ASCII charactar in that range allowed 
+  var ASCIICode = (evt.which) ? evt.which : evt.keyCode; 
+
+  if (ASCIICode < 48 || ASCIICode > 57){ 
+    document.getElementById('mobileError').innerHTML = "Enter number only";
+    return false;
+  }else{
+    document.getElementById('mobileError').innerHTML = "";
   } 
 } 
 

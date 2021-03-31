@@ -6,7 +6,7 @@ class CManageKzProducts Extends CI_Controller{
     function  __construct(){
         parent::__construct();
 
-        //the user is not logged in, redirected to login page!
+        //the admin is not logged in, redirected to login page!
         if (empty($this->session->userdata('admin_id')))
         {
             redirect(base_url().'CAdminManage/index'); 
@@ -16,9 +16,10 @@ class CManageKzProducts Extends CI_Controller{
 
     // Load list of products
     public function index(){
-        $this->load->model('CProductsModel');
+        $this->load->model('CKzProductsModel');
+
         // fetch all records of products table in $row
-        $rows=$this->CProductsModel->fetchAllproducts();
+        $rows=$this->CKzProductsModel->fetchAllproducts();
 
         $data['rows']=$rows;
         
@@ -28,13 +29,17 @@ class CManageKzProducts Extends CI_Controller{
     // Load addProduct view
     function addProduct(){
         // Load data for category select tag in addProduct view 
-        $this->load->model('CCategoryModel');
-        $rows_category=$this->CCategoryModel->fetchAllCategory();
+        $this->load->model('CKzCategoryModel');
+
+        // Fetch Category records
+        $rows_category=$this->CKzCategoryModel->fetchAllCategory();
         $data['rows_category']=$rows_category;
 
         // Load data for brand select tag in addProduct view 
-         $this->load->model('CBrandModel');
-         $rows_brand=$this->CBrandModel->fetchAllBrand();
+         $this->load->model('CKzBrandModel');
+
+        //  Fetch Brands record
+         $rows_brand=$this->CKzBrandModel->fetchAllBrand();
          $data['rows_brand']=$rows_brand;
 
         // Loaded $data array passed to addProduct
@@ -68,8 +73,9 @@ class CManageKzProducts Extends CI_Controller{
             $filename = $uploadData['file_name']; 
 
             // Save entries to db
-            $this->load->model('CProductsModel');
+            $this->load->model('CKzProductsModel');
 
+            // Create array object
             $formArray=array();
 
             $formArray['name']=$this->input->post('product');
@@ -80,7 +86,8 @@ class CManageKzProducts Extends CI_Controller{
             $formArray['image']=$filename;
             $formArray['description']=$this->input->post('desc');
             
-            $this->CProductsModel->create($formArray);
+            // Insert product record
+            $this->CKzProductsModel->create($formArray);
 
             // Response to display record inserted
             $response['status']=1;
@@ -92,18 +99,18 @@ class CManageKzProducts Extends CI_Controller{
      // This will return particular product record and edit form
      function getProduct($Id){
         // For display category in select tag
-        $this->load->model('CCategoryModel');
-        $rows_category=$this->CCategoryModel->fetchAllCategory();
+        $this->load->model('CKzCategoryModel');
+        $rows_category=$this->CKzCategoryModel->fetchAllCategory();
         $data['rows_category']=$rows_category;
 
         // For display brand in select tag
-        $this->load->model('CBrandModel');
-        $rows_brand=$this->CBrandModel->fetchAllBrand();
+        $this->load->model('CKzBrandModel');
+        $rows_brand=$this->CKzBrandModel->fetchAllBrand();
          $data['rows_brand']=$rows_brand;
 
-        // Fetch particular record
-        $this->load->model('CProductsModel');
-        $row = $this->CProductsModel->fetchRow($Id);
+        // Fetch particular product record and passed to view
+        $this->load->model('CKzProductsModel');
+        $row = $this->CKzProductsModel->fetchRow($Id);
         $data['row']=$row; 
         $html = $this->load->view('admin/product/editProduct.php',$data,true);
 
@@ -114,11 +121,11 @@ class CManageKzProducts Extends CI_Controller{
 
      // Update particular record in products table
      function  updateProduct(){
-        $this->load->model('CProductsModel');
+        $this->load->model('CKzProductsModel');
 
         // To find record exists or not
         $intProductId= $this->input->post('pro_id');
-        $row = $this->CProductsModel->fetchRow($intProductId);
+        $row = $this->CKzProductsModel->fetchRow($intProductId);
         if(empty($row)){
             $response['status']=0;
             $response['msg']="Either Record deleted or not found!";
@@ -159,9 +166,10 @@ class CManageKzProducts Extends CI_Controller{
             unlink($filePath);  //remove old file
             }
 
-            // Save entries to db
+            // Set timezone
             date_default_timezone_set("Asia/Kolkata");
 
+            // Create array object
             $formArray=array();
 
             $formArray['name']=$this->input->post('product');
@@ -172,10 +180,12 @@ class CManageKzProducts Extends CI_Controller{
             $formArray['image']=$filename;
             $formArray['modified_date']=date("Y-m-d h:i:sa");;
             $formArray['description']=$this->input->post('desc');
-            $intProductIdResponse = $this->CProductsModel->update($intProductId,$formArray); 
+
+            // Insert product record
+            $intProductIdResponse = $this->CKzProductsModel->update($intProductId,$formArray); 
             
             // Fetch updated record
-            $row=$this->CProductsModel->fetchRow($intProductIdResponse);
+            $row=$this->CKzProductsModel->fetchRow($intProductIdResponse);
 
             // Particular record loaded in response to reflect changes in listView of product 
             $response['row']=$row; 
@@ -193,11 +203,11 @@ class CManageKzProducts Extends CI_Controller{
 
     // Update particular record without image
     function  updateProductWithoutImage(){
-            $this->load->model('CProductsModel');
+            $this->load->model('CKzProductsModel');
 
             // To find record exists or not
             $intProductId= $this->input->post('pro_id');
-            $row = $this->CProductsModel->fetchRow($intProductId);
+            $row = $this->CKzProductsModel->fetchRow($intProductId);
             if(empty($row)){
                 $response['status']=0;
                 $response['msg']="Either Record deleted or not found!";
@@ -205,9 +215,10 @@ class CManageKzProducts Extends CI_Controller{
                 exit;
             }
     
-            // Save entries to db
+            // Set timezone
             date_default_timezone_set("Asia/Kolkata");
 
+            // Create array object
             $formArray=array();
 
             $formArray['name']=$this->input->post('product');
@@ -218,10 +229,11 @@ class CManageKzProducts Extends CI_Controller{
             $formArray['modified_date']=date("Y-m-d h:i:sa");;
             $formArray['description']=$this->input->post('desc');
             
-            $intProductIdResponse = $this->CProductsModel->update($intProductId,$formArray); 
+            // Insert product
+            $intProductIdResponse = $this->CKzProductsModel->update($intProductId,$formArray); 
             
             // To fetch updated record to reflect changes in view
-            $row=$this->CProductsModel->fetchRow($intProductIdResponse);
+            $row=$this->CKzProductsModel->fetchRow($intProductIdResponse);
             
             // Fetched record loaded in response
             $response['row']=$row;  
@@ -234,10 +246,10 @@ class CManageKzProducts Extends CI_Controller{
 
     // Delete particular record from product table 
     function deleteProduct($intProductId){
-        $this->load->model('CProductsModel');
+        $this->load->model('CKzProductsModel');
 
         // To find record exist or not
-        $row = $this->CProductsModel->fetchRow($intProductId);
+        $row = $this->CKzProductsModel->fetchRow($intProductId);
         if(empty($row)){
             $response['status']=0;
             $response['msg']="Either Record deleted or not found!";
@@ -246,7 +258,7 @@ class CManageKzProducts Extends CI_Controller{
         }
         
         // Delete record
-        $this->CProductsModel->delete($intProductId);
+        $this->CKzProductsModel->delete($intProductId);
 
         // response to display record deleted
         $response['pro_id']=$intProductId;

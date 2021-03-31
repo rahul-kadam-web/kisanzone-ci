@@ -29,14 +29,18 @@
                         <p><?php echo $products['category_name']; ?> - <?php echo $products['brand_name']; ?></p>
                         <h2><i class="fa fa-inr"> <?php echo $products['price']; ?> /- </i> </h2>
                         <hr>
+                        <?php if($products['quantity'] != 0){ ?>
                         <button class="">
-                            <a href="<?php echo base_url().'index.php/CHome/addToCart/'.$products['pro_id']; ?>" >
+                            <a href="<?php echo base_url().'index.php/CCart/addToCart/'.$products['pro_id']; ?>" >
                                 <span>
                                 Add To Cart
                                 </span>
                             </a>
                         </button>
-                        
+                        <?php }else{?>
+                            <h1 class="font-weight-bold">Sold out</h1>
+                            <h3>This item is currently out of stock</h3>
+                        <?php } ?>
                         <hr>
                         <div class="card p-3">
                             <h4>Product description</h4>

@@ -140,6 +140,24 @@ function fileValidation(){
     var filePath = fileInput.value;
     var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
 
+    
+    if(!allowedExtensions.exec(filePath)){
+        document.getElementById("imageError").innerHTML="Please upload file having extensions .jpeg/.png/.jpg only.";
+        fileInput.value = '';
+        return false;
+    }else{
+        //Image preview
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              document.getElementById('imagePreview').setAttribute('width', '30px');
+              document.getElementById('imagePreview').setAttribute('height', '30px');
+              document.getElementById('imagePreview').innerHTML = '<img class="img-fluid" src="'+e.target.result+'"/>';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
     // Check if any file is selected.
     if (fileInput.files.length > 0) {
             for (var i = 0; i <= fileInput.files.length - 1; i++) {
@@ -156,22 +174,6 @@ function fileValidation(){
             }
     }
 
-    if(!allowedExtensions.exec(filePath)){
-        document.getElementById("imageError").innerHTML="Please upload file having extensions .jpeg/.png/.jpg only.";
-        fileInput.value = '';
-        return false;
-    }else{
-        //Image preview
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-              document.getElementById('imagePreview').setAttribute('width', '30px');
-              document.getElementById('imagePreview').setAttribute('height', '30px');
-              document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'"/>';
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    }
 }
 
 

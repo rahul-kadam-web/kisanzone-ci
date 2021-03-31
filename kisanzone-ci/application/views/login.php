@@ -41,7 +41,7 @@
             <form name="loginForm" id="loginForm" method="post" onsubmit="return loginFormValidation()">
               <div class="form-group">
                 <label>Enter Mobile Number</label>
-                <input type="text" name="mobile" class="form-control">
+                <input type="tel" name="mobile" onkeypress="onlyNumberKey(event)" maxlength="10" class="form-control">
                 <span id="mobileError" class="text-danger"></span>
               </div>
               <div class="form-group">
@@ -55,7 +55,7 @@
                     <span>Show Password</span> 
                   </div>
                   <div class="">
-                    <a href="<?php echo  base_url().'CCustomers/forgotPassword'; ?>" class="">forgot password?</a>
+                    <a href="<?php echo  base_url().'CCustomers/forgotPassword'; ?>" class="forgot-password-link">forgot password?</a>
                   </div> 
                 </div>
               </div>
@@ -63,7 +63,7 @@
                 <button type="submit" class="login-btn">Login</button>
                 <button type="reset" class="reset-btn">Reset</button>
                 <br>
-                <a href="<?php echo site_url('CCustomers/signup'); ?>" class="text-outline-info">Are you new to kisanzone? <br> signup here..</a>
+                <a href="<?php echo site_url('CCustomers/signup'); ?>" class="signup-link">Are you new to kisanzone? <br> signup here..</a>
               </div>
             </form>
           </div>
@@ -93,15 +93,32 @@ $this->load->view('footerInfoSection')
                 pass.type = "password"; 
             } 
         } 
+        
+    // Enter number only for mobile field
+    function onlyNumberKey(evt) { 
+          // Only ASCII charactar in that range allowed 
+          var ASCIICode = (evt.which) ? evt.which : evt.keyCode; 
+
+          if (ASCIICode < 48 || ASCIICode > 57){ 
+            document.getElementById('mobileError').innerHTML = "Enter number only";
+            return false;
+          }else{
+            document.getElementById('mobileError').innerHTML = "";
+          } 
+      } 
+
 // login form validation
 function loginFormValidation() {
   // to count error
   var count = 0;
+
+  // regular expression for mobile
+  var mobileRegularE = /^[0-9]{10}$/;
   // store value in varible
-  var emailMobile = document.forms["loginForm"]["mobile"].value;
+  var mobile = document.forms["loginForm"]["mobile"].value;
   var password = document.forms["loginForm"]["password"].value;
 
-  if(emailMobile != "")
+  if(mobile != "")
   {
     document.getElementById('mobileError').innerHTML="";
   }
@@ -110,8 +127,13 @@ function loginFormValidation() {
     document.getElementById('passwordError').innerHTML="";
   }
 
-  if (emailMobile == "") {
-    document.getElementById('mobileError').innerHTML="Mobile number is required";
+  if(!mobile.match(mobileRegularE)){
+    document.getElementById("mobileError").innerHTML="Plz enter 10 digit mobile number";
+    count++;
+  }
+
+  if(mobile == ""){
+    document.getElementById('mobileError').innerHTML="Mobile is required";
     count++;
   }
 

@@ -6,7 +6,7 @@ class CManageKzBrand Extends CI_Controller{
     function  __construct(){
         parent::__construct();
 
-        //if customer is not logged in, redirected to login page!
+        //if admin is not logged in, redirected to login page!
         if (empty($this->session->userdata('admin_id')))
         {
             redirect(base_url().'CAdminManage/index'); 
@@ -15,11 +15,14 @@ class CManageKzBrand Extends CI_Controller{
 
     // Load list of brand
     public function index(){
-        $this->load->model('CBrandModel');
+        $this->load->model('CKzBrandModel');
         
+        // Create array object  
         $data = array();
-        // fetch all record of brand table
-        $rows=$this->CBrandModel->fetchAllBrand(); 
+
+        // fetch all records from brand table
+        $rows=$this->CKzBrandModel->fetchAllBrand(); 
+
         $data['rows']=$rows;
 
         $this->load->view('admin/brand/listBrand',$data);
@@ -27,12 +30,13 @@ class CManageKzBrand Extends CI_Controller{
 
     // Save or insert record to brand table
     public function saveBrand(){
-        $this->load->model('CBrandModel');
+        $this->load->model('CKzBrandModel');
 
+        // Create array object
         $formArray=array();
         
         $formArray['brand_name']=$this->input->post('brand');
-        $this->CBrandModel->create($formArray);
+        $this->CKzBrandModel->create($formArray);
 
         // Response to display record inserted
         $response['status']=1;
@@ -47,9 +51,10 @@ class CManageKzBrand Extends CI_Controller{
 
      // This will get particular brand record and return edit form
      function getBrand($intId){
-        $this->load->model('CBrandModel');
+        $this->load->model('CKzBrandModel');
         
-        $row = $this->CBrandModel->fetchRow($intId);
+        // Fetch a brand record
+        $row = $this->CKzBrandModel->fetchRow($intId);
 
         $data['row']=$row;
         
@@ -63,11 +68,11 @@ class CManageKzBrand Extends CI_Controller{
 
     //  Update particular record of brand table
      function  updateBrand(){
-        $this->load->model('CBrandModel');
+        $this->load->model('CKzBrandModel');
 
         // To find record exists or not
         $intBrandId= $this->input->post('brand_id');
-        $row = $this->CBrandModel->fetchRow($intBrandId);
+        $row = $this->CKzBrandModel->fetchRow($intBrandId);
         if(empty($row)){
             $response['status']=0;
             $response['msg']="Either Record deleted or not found!";
@@ -75,16 +80,20 @@ class CManageKzBrand Extends CI_Controller{
             exit;
         }
         
+        // Set timezone
         date_default_timezone_set("Asia/Kolkata");
 
+        // Create array object
         $formArray=array();
 
         $formArray['brand_name']=$this->input->post('brand_name');
         $formArray['modified_date']= date("Y-m-d h:i:sa");
         
-        $intBrandIdResponse = $this->CBrandModel->update($intBrandId,$formArray);
+        // Update record and return brand_id
+        $intBrandIdResponse = $this->CKzBrandModel->update($intBrandId,$formArray);
 
-        $row = $this->CBrandModel->fetchRow($intBrandIdResponse);
+        // Get record(updated)
+        $row = $this->CKzBrandModel->fetchRow($intBrandIdResponse);
 
         // Response to show record updated
         $response['row']=$row;
@@ -95,10 +104,10 @@ class CManageKzBrand Extends CI_Controller{
 
      // Delete particular record 
      function deleteBrand($intBrandId){
-        $this->load->model('CBrandModel');
+        $this->load->model('CKzBrandModel');
 
         // to find record exists or not 
-        $row = $this->CBrandModel->fetchRow($intBrandId);
+        $row = $this->CKzBrandModel->fetchRow($intBrandId);
         if(empty($row)){
             $response['status']=0;
             $response['msg']="Either Record deleted or not found!";
@@ -106,8 +115,8 @@ class CManageKzBrand Extends CI_Controller{
             exit;
         }
 
-        // if find then delete it
-        $this->CBrandModel->delete($intBrandId);
+        // If found then delete it
+        $this->CKzBrandModel->delete($intBrandId);
 
         // Response to display record deleted
         $response['brand_id']=$intBrandId;

@@ -177,7 +177,7 @@ $(document).ready(function() {
 			buttons: [
 				{
 					extend: 'colvis',
-					text: 'Columns',
+					text: 'Sort by columns',
 				},
 				{
 				extend: 'print',
@@ -187,7 +187,7 @@ $(document).ready(function() {
 				var dd = d.getDate();
 				var mm = d.getMonth();
 				var yy = d.getFullYear();
-				var text = 'Test | '+d;
+				var text = 'List of category | '+d;
 				return text;
 				},
 				exportOptions: {
@@ -199,7 +199,7 @@ $(document).ready(function() {
 						title: '',
 						messageTop: function () {
 						var d = new Date();
-						var text = 'Test | '+d;
+						var text = 'List of category | '+d;
 						return text;
 				},
 				filename: function(){
@@ -207,7 +207,7 @@ $(document).ready(function() {
 					var dd = d.getDate();
 					var mm = d.getMonth();
 					var yy = d.getFullYear();
-					var text = 'Test '+dd+'-'+mm+'-'+yy;
+					var text = 'List of category '+dd+'-'+mm+'-'+yy;
 					return text;
 				},
 				exportOptions: {
@@ -237,6 +237,7 @@ $(document).ready(function() {
       });
     }
 
+// categoryFormValidation
 function categoryFormValidation(){
   //error count
   var count=0;
@@ -293,12 +294,14 @@ function categoryFormValidation(){
   }
 }
 
+// Modal for confirm
 function confirmDeleteModel(id){
   $('#deleteModal').modal('show');
   $('#deleteModal .modal-body').html('Are you sure you want to delete #'+id+'?');
   $('#deleteModal').data("id",id);
 }
 
+// Deleteb record
 function deleteNow(){
     var id =  $('#deleteModal').data('id');
     $.ajax({
